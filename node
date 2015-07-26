@@ -12,13 +12,15 @@ for lines in $(cat values.txt); do
   if [[ $lines == *.pkg* ]]
   then
     # Download the appropriate node package for OS X
+    echo "Downloading NodeJs Package file\n";
     echo `curl -Lo node.pkg https://nodejs.org/dist/latest/{$lines}`;
   fi
 done
 
 # Cleanup and install NodeJS silently
-echo `rm -rf values.txt | sudo installer -package node.pkg -target /`;
+echo `rm -rf values.txt && sudo installer -verboseR -package node.pkg -target /`;
 if [ $? -eq 0 ]; then
+  echo "Install was completed successfully\n";
   echo `rm -rf node.pkg ~/matty-temp`;
   exit 0;
 else
